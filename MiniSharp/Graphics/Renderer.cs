@@ -1,3 +1,4 @@
+using MiniSharp.Graphics.Orders;
 using SDL3;
 
 namespace MiniSharp.Graphics;
@@ -11,8 +12,7 @@ public class Renderer
     private readonly nint _texture;
 
     private readonly int _width;
-    private readonly List<BlitOrder> _blitOrders;
-    private readonly Palette _palette;
+    public Palette Palette { get; }
 
     public Renderer(nint window, int width, int height)
     {
@@ -22,8 +22,7 @@ public class Renderer
         _renderer = SDL.CreateRenderer(window, null);
         _texture = SDL.CreateTexture(_renderer, SDL.PixelFormat.ARGB8888, SDL.TextureAccess.Streaming, width, height);
         SDL.SetTextureScaleMode(_texture, SDL.ScaleMode.Nearest);
-        _palette = new Palette(6);
-        _blitOrders = [];
+        Palette = new Palette(6);
     }
 
     public void Flush()
@@ -31,64 +30,41 @@ public class Renderer
         Array.Fill<byte>(_pixelBuffer.Pixels, 0);
     }
 
-    public void SubmitOrder(BlitOrder blitOrder)
+    public void BlitSprite(SpriteOrder spriteOrder)
     {
-        _blitOrders.Add(blitOrder);
+        if (spriteOrder.Dst.X < 0 || spriteOrder.Dst.Y < 0 || spriteOrder.Dst.X >= _pixelBuffer.Width || spriteOrder.Dst.Y >= _pixelBuffer.Height) return;
+        
+        var texture = TextureManager.Instance.GetTexture(spriteOrder.TextureId);
+
+        for (var y = 0; y < spriteOrder.Src.Height; y++)
+        {
+            var py = y + spriteOrder.Dst.Y;
+            
+            if (py < 0 || py >= _pixelBuffer.Height) continue;
+            
+            for (var x = 0; x < spriteOrder.Src.Width; x++)
+            {
+                var px = x + spriteOrder.Dst.X;
+                
+                if (px < 0 || px >= _pixelBuffer.Width) continue;
+
+                var textureIndex = texture.GetAlphaPixel(x + spriteOrder.Src.X, y + spriteOrder.Src.Y);
+                        
+                if (textureIndex == Texture.OpaquePixel) continue;
+
+                var pixel = Palette.Colors[spriteOrder.Colors[textureIndex]];
+
+                _pixelBuffer.SetPixel(px, py, pixel);
+            }
+        }
     }
 
     public void Splat()
     {
-        _blitOrders.Sort((a, b) => a.Z.CompareTo(b.Z));
-
-        foreach (var blitOrder in _blitOrders)
-        {
-            if (blitOrder is BlitOrder.RectOrder rectOrder)
-                for (var y = 0; y < rectOrder.Dst.Height; y++)
-                {
-                    var py = y + rectOrder.Dst.Y;
-                    for (var x = 0; x < rectOrder.Dst.Width; x++)
-                    {
-                        var px = x + rectOrder.Dst.X;
-
-                        _pixelBuffer.SetPixel(px, py, rectOrder.Color);
-                    }
-                }
-
-            if (blitOrder is BlitOrder.PaletteOrder)
-                for (var y = 0; y < _height; y++)
-                for (var x = 0; x < _width; x++)
-                {
-                    var index = (x + y) % _palette.TotalChannels;
-
-                    _pixelBuffer.SetPixel(x, y, _palette.Colors[index]);
-                }
-
-            if (blitOrder is BlitOrder.SpriteOrder spriteOrder)
-            {
-                var texture = TextureManager.Instance.GetTexture(spriteOrder.TextureId);
-
-                for (var y = 0; y < spriteOrder.Src.Height; y++)
-                {
-                    var py = y + spriteOrder.Dst.Y;
-                    for (var x = 0; x < spriteOrder.Src.Width; x++)
-                    {
-                        var px = x + spriteOrder.Dst.X;
-
-                        var pixel = texture.Pixels[y * spriteOrder.Src.Width + x];
-
-                        _pixelBuffer.SetPixel(px, py, pixel);
-                    }
-                }
-            }
-        }
-
-        SDL.RenderClear(_renderer);
         SDL.UpdateTexture(_texture, new SDL.Rect { X = 0, Y = 0, W = 320, H = 180 }, _pixelBuffer.Pixels,
             _pixelBuffer.Pitch);
         SDL.RenderTexture(_renderer, _texture, new SDL.FRect { X = 0, H = 180, W = 320, Y = 0 },
             new SDL.FRect { X = 0, H = 720, W = 1280, Y = 0 });
         SDL.RenderPresent(_renderer);
-
-        _blitOrders.Clear();
     }
 }

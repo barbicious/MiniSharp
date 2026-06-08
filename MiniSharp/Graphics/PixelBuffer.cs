@@ -2,7 +2,10 @@ namespace MiniSharp.Graphics;
 
 public class PixelBuffer(int width, int height)
 {
-    private const int Channels = 4;
+    public const int Channels = 4;
+    
+    public int Width => width;
+    public int Height => height;
 
     public byte[] Pixels { get; } = new byte[width * height * Channels];
 

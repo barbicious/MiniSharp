@@ -16,13 +16,14 @@ public class Program
 
         var running = true;
         
-        var texture = new Texture("Assets/font.png");
         TextureManager.Instance.Register("Assets/font.png", "font");
+        TextureManager.Instance.Register("Assets/ground.png", "ground");
+
+        var arcade = new Arcade.Arcade();
 
         while (running)
         {
-            SDL.Event ev;
-            while (SDL.PollEvent(out ev))
+            while (SDL.PollEvent(out var ev))
                 switch (ev.Type)
                 {
                     case (uint)SDL.EventType.Quit:
@@ -32,12 +33,9 @@ public class Program
 
             renderer.Flush();
 
-            renderer.SubmitOrder(new BlitOrder.RectOrder(new Rectangle(3, 12, 20, 10), 1, 0xFFAA44));
-            renderer.SubmitOrder(new BlitOrder.RectOrder(new Rectangle(5, 8, 10, 10), 2, 0xFF00FF));
-            renderer.SubmitOrder(new BlitOrder.SpriteOrder(new Rectangle(0, 0, 64, 64), new Point(3, 3), 2, new uint[]{0xFF00FF, 0xFF0000, 0x00FF00, 0x0000FF}, 0));
-            renderer.SubmitOrder(new BlitOrder.PaletteOrder());
+            arcade.Blit(renderer);
 
             renderer.Splat();
         }
     }
-}
+} 
