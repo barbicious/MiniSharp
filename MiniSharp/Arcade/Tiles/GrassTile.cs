@@ -12,8 +12,8 @@ public class GrassTile : GroundTile
     {
         return
         [
-            renderer.Palette.Palettize(4, 3, 2), renderer.Palette.Palettize(1, 2, 1),
-            renderer.Palette.Palettize(1, 3, 1), renderer.Palette.Palettize(1, 4, 1)
+            renderer.Palette.Palettize(4, 3, 2), renderer.Palette.Palettize(0, 3, 0),
+            renderer.Palette.Palettize(1, 4, 1), renderer.Palette.Palettize(2, 5, 2)
         ];
     }
 }

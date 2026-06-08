@@ -6,7 +6,7 @@ namespace MiniSharp.Arcade;
 
 public class Arcade
 {
-    public const int Width = 12;
+    public const int Width = 25;
     public const int Height = 12;
     
     private int[] _tiles;

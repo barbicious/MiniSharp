@@ -21,7 +21,7 @@ public class Palette
             var gg = (float)(g * byte.MaxValue) / ChannelsIndex;
             var bb = (float)(b * byte.MaxValue) / ChannelsIndex;
 
-            var luminance = (rr * 30f + gg * 59f + bb * 11) / 100f;
+            var luminance = (rr * 30f + gg * 59f + bb * 11f) / 100f;
 
             ApplyLuminance(luminance, ref rr);
             ApplyLuminance(luminance, ref gg);

@@ -4,7 +4,7 @@ using MiniSharp.Utilities;
 
 namespace MiniSharp.Arcade.Tiles;
 
-public class DirtTile : Tile
+public class DirtTile : GroundTile
 {
     public DirtTile(int id) : base(id)
     {
@@ -23,13 +23,8 @@ public class DirtTile : Tile
     {
         return
         [
-            renderer.Palette.Palettize(4, 3, 2), renderer.Palette.Palettize(3, 2, 1),
+            renderer.Palette.Palettize(3, 2, 1), renderer.Palette.Palettize(3, 2, 1),
             renderer.Palette.Palettize(4, 3, 2), renderer.Palette.Palettize(3, 2, 1)
         ];
-    }
-    
-    protected override int GetTextureId()
-    {
-        return TextureManager.Instance.GetId("ground");
     }
 }
