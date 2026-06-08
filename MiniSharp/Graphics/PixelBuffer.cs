@@ -3,7 +3,7 @@ namespace MiniSharp.Graphics;
 public class PixelBuffer(int width, int height)
 {
     public const int Channels = 4;
-    
+
     public int Width => width;
     public int Height => height;
 
@@ -11,8 +11,11 @@ public class PixelBuffer(int width, int height)
 
     public int Pitch => width * Channels;
 
-    public void SetPixel(int x, int y, uint color) => SetPixel(x, y, (byte)(color >> 0), (byte)(color >> 8), (byte)(color >> 16), 0xFF);
-    
+    public void SetPixel(int x, int y, uint color)
+    {
+        SetPixel(x, y, (byte)(color >> 0), (byte)(color >> 8), (byte)(color >> 16), 0xFF);
+    }
+
     public void SetPixel(int x, int y, byte r, byte g, byte b, byte a)
     {
         var index = (y * width + x) * Channels;

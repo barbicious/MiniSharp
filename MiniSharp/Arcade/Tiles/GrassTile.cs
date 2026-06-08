@@ -7,7 +7,7 @@ public class GrassTile : GroundTile
     public GrassTile(int id) : base(id)
     {
     }
-    
+
     protected override uint[] GetColors(Renderer renderer)
     {
         return

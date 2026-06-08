@@ -12,7 +12,6 @@ public class Renderer
     private readonly nint _texture;
 
     private readonly int _width;
-    public Palette Palette { get; }
 
     public Renderer(nint window, int width, int height)
     {
@@ -25,6 +24,8 @@ public class Renderer
         Palette = new Palette(6);
     }
 
+    public Palette Palette { get; }
+
     public void Flush()
     {
         Array.Fill<byte>(_pixelBuffer.Pixels, 0);
@@ -32,24 +33,25 @@ public class Renderer
 
     public void BlitSprite(SpriteOrder spriteOrder)
     {
-        if (spriteOrder.Dst.X < 0 || spriteOrder.Dst.Y < 0 || spriteOrder.Dst.X >= _pixelBuffer.Width || spriteOrder.Dst.Y >= _pixelBuffer.Height) return;
-        
+        if (spriteOrder.Dst.X < 0 || spriteOrder.Dst.Y < 0 || spriteOrder.Dst.X >= _pixelBuffer.Width ||
+            spriteOrder.Dst.Y >= _pixelBuffer.Height) return;
+
         var texture = TextureManager.Instance.GetTexture(spriteOrder.TextureId);
 
         for (var y = 0; y < spriteOrder.Src.Height; y++)
         {
             var py = y + spriteOrder.Dst.Y;
-            
+
             if (py < 0 || py >= _pixelBuffer.Height) continue;
-            
+
             for (var x = 0; x < spriteOrder.Src.Width; x++)
             {
                 var px = x + spriteOrder.Dst.X;
-                
+
                 if (px < 0 || px >= _pixelBuffer.Width) continue;
 
                 var textureIndex = texture.GetAlphaPixel(x + spriteOrder.Src.X, y + spriteOrder.Src.Y);
-                        
+
                 if (textureIndex == Texture.OpaquePixel) continue;
 
                 var pixel = Palette.Colors[spriteOrder.Colors[textureIndex]];

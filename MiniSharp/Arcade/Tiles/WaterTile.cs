@@ -14,5 +14,6 @@ public class WaterTile : LiquidTile
         [
             renderer.Palette.Palettize(4, 3, 2), renderer.Palette.Palettize(1, 1, 2),
             renderer.Palette.Palettize(1, 1, 5), renderer.Palette.Palettize(3, 3, 5)
-        ];    }
+        ];
+    }
 }

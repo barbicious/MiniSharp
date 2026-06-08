@@ -3,11 +3,10 @@ namespace MiniSharp.Graphics;
 public class TextureManager
 {
     private static TextureManager? _instance;
-    public static TextureManager Instance => _instance ??= new TextureManager();
-    
-    private List<Texture> _textures;
-    private Dictionary<string, int> _names;
     private int _currentId;
+    private readonly Dictionary<string, int> _names;
+
+    private readonly List<Texture> _textures;
 
     private TextureManager()
     {
@@ -15,6 +14,8 @@ public class TextureManager
         _names = [];
         _currentId = 0;
     }
+
+    public static TextureManager Instance => _instance ??= new TextureManager();
 
     public void Register(string filePath, string name)
     {

@@ -9,14 +9,11 @@ public abstract class Tile
     protected const int SubHeight = 8;
     protected const int Width = SubWidth * 2;
     protected const int Height = SubHeight * 2;
-    
+
     private const int MaxTiles = byte.MaxValue;
-    public static Tile[] Tiles { get; private set; } = new Tile[MaxTiles];
     public static readonly GrassTile GrassTile = new(0);
     public static readonly DirtTile DirtTile = new(1);
     public static readonly WaterTile WaterTile = new(2);
-    
-    public int Id { get; init; }
 
     public Tile(int id)
     {
@@ -24,6 +21,10 @@ public abstract class Tile
         Debug.Assert(Tiles[Id] == null);
         Tiles[Id] = this;
     }
+
+    public static Tile[] Tiles { get; } = new Tile[MaxTiles];
+
+    public int Id { get; }
 
     public abstract void Blit(Arcade arcade, Renderer renderer, int x, int y);
 

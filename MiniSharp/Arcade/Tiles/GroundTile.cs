@@ -18,7 +18,7 @@ public class GroundTile : Tile
         var r = x < Arcade.Width - 1 && arcade[x + 1, y].Id == Id;
 
         int sx, sy = 0;
-        
+
         if (u && l)
         {
             sx = 8;
@@ -42,9 +42,13 @@ public class GroundTile : Tile
                 sy = 0;
             }
         }
-        
-        renderer.BlitSprite(new SpriteOrder { Colors = GetColors(renderer), Src = new Rectangle(sx, sy, SubWidth, SubHeight), Dst = new Point(x * Width, y * Height), TextureId = GetTextureId() } );
-        
+
+        renderer.BlitSprite(new SpriteOrder
+        {
+            Colors = GetColors(renderer), Src = new Rectangle(sx, sy, SubWidth, SubHeight),
+            Dst = new Point(x * Width, y * Height), TextureId = GetTextureId()
+        });
+
         if (u && r)
         {
             sx = 8;
@@ -68,9 +72,13 @@ public class GroundTile : Tile
                 sy = 0;
             }
         }
-        
-        renderer.BlitSprite(new SpriteOrder { Colors = GetColors(renderer), Src = new Rectangle(sx, sy, SubWidth, SubHeight), Dst = new Point(x * Width + SubWidth, y * Height), TextureId = GetTextureId() } );
-        
+
+        renderer.BlitSprite(new SpriteOrder
+        {
+            Colors = GetColors(renderer), Src = new Rectangle(sx, sy, SubWidth, SubHeight),
+            Dst = new Point(x * Width + SubWidth, y * Height), TextureId = GetTextureId()
+        });
+
         if (d && l)
         {
             sx = 8;
@@ -94,9 +102,13 @@ public class GroundTile : Tile
                 sy = 16;
             }
         }
-        
-        renderer.BlitSprite(new SpriteOrder { Colors = GetColors(renderer), Src = new Rectangle(sx, sy, SubWidth, SubHeight), Dst = new Point(x * Width, y * Height + SubHeight), TextureId = GetTextureId() } );
-        
+
+        renderer.BlitSprite(new SpriteOrder
+        {
+            Colors = GetColors(renderer), Src = new Rectangle(sx, sy, SubWidth, SubHeight),
+            Dst = new Point(x * Width, y * Height + SubHeight), TextureId = GetTextureId()
+        });
+
         if (d && r)
         {
             sx = 8;
@@ -120,12 +132,14 @@ public class GroundTile : Tile
                 sy = 16;
             }
         }
-        
-        renderer.BlitSprite(new SpriteOrder { Colors = GetColors(renderer), Src = new Rectangle(sx, sy, SubWidth, SubHeight), Dst = new Point(x * Width + SubWidth, y * Height + SubHeight), TextureId = GetTextureId() } );
 
-
+        renderer.BlitSprite(new SpriteOrder
+        {
+            Colors = GetColors(renderer), Src = new Rectangle(sx, sy, SubWidth, SubHeight),
+            Dst = new Point(x * Width + SubWidth, y * Height + SubHeight), TextureId = GetTextureId()
+        });
     }
-    
+
     protected override int GetTextureId()
     {
         return TextureManager.Instance.GetId("ground");

@@ -1,5 +1,4 @@
 ﻿using MiniSharp.Graphics;
-using MiniSharp.Utilities;
 using SDL3;
 
 namespace MiniSharp;
@@ -15,7 +14,7 @@ public class Program
         var renderer = new Renderer(window, 320, 180);
 
         var running = true;
-        
+
         TextureManager.Instance.Register("Assets/font.png", "font");
         TextureManager.Instance.Register("Assets/ground.png", "ground");
 
@@ -38,4 +37,4 @@ public class Program
             renderer.Splat();
         }
     }
-} 
+}
