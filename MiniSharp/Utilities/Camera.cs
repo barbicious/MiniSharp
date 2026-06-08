@@ -1,0 +1,21 @@
+﻿namespace MiniSharp.Utilities;
+
+public class Camera(int x, int y, int minX, int maxX, int minY, int maxY)
+{
+    private readonly int _maxX = maxX;
+    private readonly int _maxY = maxY;
+
+    private readonly int _minX = minX;
+    private readonly int _minY = minY;
+    public int X { get; set; } = Math.Clamp(x, minX, maxX);
+    public int Y { get; set; } = Math.Clamp(y, minY, maxY);
+
+    public void Translate(int dx, int dy)
+    {
+        X += dx;
+        Y += dy;
+
+        X = Math.Clamp(X, _minX, _maxX);
+        Y = Math.Clamp(Y, _minY, _maxY);
+    }
+}

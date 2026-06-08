@@ -1,16 +1,16 @@
-﻿using MiniSharp.Graphics;
+﻿using MiniSharp.Core;
 using MiniSharp.Graphics.Orders;
 using MiniSharp.Utilities;
 
-namespace MiniSharp.Arcade.Tiles;
+namespace MiniSharp.Level.Tiles;
 
-public class GroundTile : Tile
+public abstract class GroundTile : Tile
 {
     public GroundTile(int id) : base(id)
     {
     }
 
-    public override void Blit(Arcade arcade, Renderer renderer, int x, int y)
+    public override void Blit(Arcade arcade, int x, int y)
     {
         var u = y > 0 && arcade[x, y - 1].Id == Id;
         var d = y < Arcade.Height - 1 && arcade[x, y + 1].Id == Id;
@@ -43,9 +43,9 @@ public class GroundTile : Tile
             }
         }
 
-        renderer.BlitSprite(new SpriteOrder
+        Game.Instance.Renderer.BlitSprite(new SpriteOrder
         {
-            Colors = GetColors(renderer), Src = new Rectangle(sx, sy, SubWidth, SubHeight),
+            Colors = GetColors(), Src = new Rectangle(sx, sy, SubWidth, SubHeight),
             Dst = new Point(x * Width, y * Height), TextureId = GetTextureId()
         });
 
@@ -73,9 +73,9 @@ public class GroundTile : Tile
             }
         }
 
-        renderer.BlitSprite(new SpriteOrder
+        Game.Instance.Renderer.BlitSprite(new SpriteOrder
         {
-            Colors = GetColors(renderer), Src = new Rectangle(sx, sy, SubWidth, SubHeight),
+            Colors = GetColors(), Src = new Rectangle(sx, sy, SubWidth, SubHeight),
             Dst = new Point(x * Width + SubWidth, y * Height), TextureId = GetTextureId()
         });
 
@@ -103,9 +103,9 @@ public class GroundTile : Tile
             }
         }
 
-        renderer.BlitSprite(new SpriteOrder
+        Game.Instance.Renderer.BlitSprite(new SpriteOrder
         {
-            Colors = GetColors(renderer), Src = new Rectangle(sx, sy, SubWidth, SubHeight),
+            Colors = GetColors(), Src = new Rectangle(sx, sy, SubWidth, SubHeight),
             Dst = new Point(x * Width, y * Height + SubHeight), TextureId = GetTextureId()
         });
 
@@ -133,15 +133,15 @@ public class GroundTile : Tile
             }
         }
 
-        renderer.BlitSprite(new SpriteOrder
+        Game.Instance.Renderer.BlitSprite(new SpriteOrder
         {
-            Colors = GetColors(renderer), Src = new Rectangle(sx, sy, SubWidth, SubHeight),
+            Colors = GetColors(), Src = new Rectangle(sx, sy, SubWidth, SubHeight),
             Dst = new Point(x * Width + SubWidth, y * Height + SubHeight), TextureId = GetTextureId()
         });
     }
 
     protected override int GetTextureId()
     {
-        return TextureManager.Instance.GetId("ground");
+        return Game.Instance.TextureManager.GetId("ground");
     }
 }

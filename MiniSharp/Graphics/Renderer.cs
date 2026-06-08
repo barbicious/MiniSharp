@@ -1,4 +1,8 @@
+using MiniSharp.Core;
 using MiniSharp.Graphics.Orders;
+using MiniSharp.Level;
+using MiniSharp.Level.Tiles;
+using MiniSharp.Utilities;
 using SDL3;
 
 namespace MiniSharp.Graphics;
@@ -22,9 +26,13 @@ public class Renderer
         _texture = SDL.CreateTexture(_renderer, SDL.PixelFormat.ARGB8888, SDL.TextureAccess.Streaming, width, height);
         SDL.SetTextureScaleMode(_texture, SDL.ScaleMode.Nearest);
         Palette = new Palette(6);
+        Camera = new Camera(0, 0, 0, Arcade.Width * Tile.Width - width, 0, Arcade.Height * Tile.Height - height);
+
+        SDL.SetRenderVSync(_renderer, 1);
     }
 
     public Palette Palette { get; }
+    public Camera Camera { get; private init; }
 
     public void Flush()
     {
@@ -36,7 +44,7 @@ public class Renderer
         if (spriteOrder.Dst.X < 0 || spriteOrder.Dst.Y < 0 || spriteOrder.Dst.X >= _pixelBuffer.Width ||
             spriteOrder.Dst.Y >= _pixelBuffer.Height) return;
 
-        var texture = TextureManager.Instance.GetTexture(spriteOrder.TextureId);
+        var texture = Game.Instance.TextureManager.GetTexture(spriteOrder.TextureId);
 
         for (var y = 0; y < spriteOrder.Src.Height; y++)
         {
@@ -63,9 +71,11 @@ public class Renderer
 
     public void Splat()
     {
-        SDL.UpdateTexture(_texture, new SDL.Rect { X = 0, Y = 0, W = 320, H = 180 }, _pixelBuffer.Pixels,
+        SDL.UpdateTexture(_texture, new SDL.Rect { X = 0, Y = 0, W = _pixelBuffer.Width, H = _pixelBuffer.Height },
+            _pixelBuffer.Pixels,
             _pixelBuffer.Pitch);
-        SDL.RenderTexture(_renderer, _texture, new SDL.FRect { X = 0, H = 180, W = 320, Y = 0 },
+        SDL.RenderTexture(_renderer, _texture,
+            new SDL.FRect { X = 0, H = _pixelBuffer.Height, W = _pixelBuffer.Width, Y = 0 },
             new SDL.FRect { X = 0, H = 720, W = 1280, Y = 0 });
         SDL.RenderPresent(_renderer);
     }

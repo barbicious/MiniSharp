@@ -1,4 +1,4 @@
-﻿namespace MiniSharp.Arcade.Generation;
+﻿namespace MiniSharp.Level.Generation;
 
 public interface ArcadeGenerator
 {

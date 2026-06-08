@@ -1,9 +1,10 @@
-﻿using MiniSharp.Graphics.Orders;
+﻿using MiniSharp.Core;
+using MiniSharp.Graphics.Orders;
 using MiniSharp.Utilities;
 
 namespace MiniSharp.Graphics;
 
-public static class Font
+public sealed class Font
 {
     private const int CharWidth = 8;
     private const int CharHeight = CharWidth;
@@ -18,9 +19,9 @@ public static class Font
         '3', '4', '5', '6', '7', '8', '9', '0', '&', '=', '(', ')', '.', '?', ' '
     ];
 
-    private static readonly int FontId = TextureManager.Instance.GetId("font");
+    private static readonly int FontId = Game.Instance.TextureManager.GetId("font");
 
-    public static void BlitChar(Renderer renderer, char character, int x, int y, uint foreground, uint background)
+    private void BlitChar(char character, int x, int y, uint foreground, uint background)
     {
         for (var cy = 0; cy < CharRows; cy++)
         for (var cx = 0; cx < CharColumns; cx++)
@@ -31,7 +32,7 @@ public static class Font
 
             if (character != Characters[cy * CharColumns + cx]) continue;
 
-            renderer.BlitSprite(new SpriteOrder
+            Game.Instance.Renderer.BlitSprite(new SpriteOrder
             {
                 Colors = [foreground, 0, 0, background],
                 Src = new Rectangle(cx * CharWidth, cy * CharHeight, CharWidth, CharHeight), Dst = new Point(x, y),
@@ -40,11 +41,11 @@ public static class Font
         }
     }
 
-    public static void BlitString(Renderer renderer, string str, int x, int y, uint foreground, uint background)
+    public void BlitString(string str, int x, int y, uint foreground, uint background)
     {
         foreach (var c in str)
         {
-            BlitChar(renderer, c, x, y, foreground, background);
+            BlitChar(c, x, y, foreground, background);
             x += CharWidth;
         }
     }
