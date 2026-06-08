@@ -10,13 +10,17 @@ public class OverworldGenerator : ArcadeGenerator
         {
             for (var x = 0; x < Arcade.Width; x++)
             {
-                if (Random.Shared.NextDouble() < 0.8)
+                if (Random.Shared.NextDouble() < 0.6)
                 {
                     tiles[y * Arcade.Width + x] = Tile.GrassTile.Id;
                 }
-                else
+                else if (Random.Shared.NextDouble() < 0.8)
                 {
                     tiles[y * Arcade.Width + x] = Tile.DirtTile.Id;
+                }
+                else
+                {
+                    tiles[y * Arcade.Width + x] = Tile.WaterTile.Id;
                 }
             }
         }

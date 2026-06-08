@@ -13,8 +13,8 @@ public abstract class Tile
     private const int MaxTiles = byte.MaxValue;
     public static Tile[] Tiles { get; private set; } = new Tile[MaxTiles];
     public static readonly GrassTile GrassTile = new(0);
-
     public static readonly DirtTile DirtTile = new(1);
+    public static readonly WaterTile WaterTile = new(2);
     
     public int Id { get; init; }
 
