@@ -18,25 +18,29 @@ public class Texture
             _width = image.Width;
             _height = image.Height;
 
-            Pixels = new byte[_width * _height];
+            _pixels = new byte[_width * _height];
 
-            for (var i = 0; i < Pixels.Length; i++) Pixels[i] = image.Data[i * PixelBuffer.Channels];
+            for (var i = 0; i < _pixels.Length; i++) _pixels[i] = image.Data[i * PixelBuffer.Channels];
         }
 
-        for (var i = 0; i < Pixels.Length; i++)
+        for (var i = 0; i < _pixels.Length; i++)
         {
-            if (Pixels[i] == 0) Pixels[i] = OpaquePixel;
+            if (_pixels[i] == 0)
+            {
+                _pixels[i] = OpaquePixel;
+                continue;
+            }
 
-            Pixels[i] /= 64;
+            _pixels[i] /= 64;
         }
     }
 
-    public byte[] Pixels { get; init; }
+    private readonly byte[] _pixels;
 
     public uint GetAlphaPixel(int x, int y)
     {
         var index = y * _width + x;
 
-        return Pixels[index];
+        return _pixels[index];
     }
 }

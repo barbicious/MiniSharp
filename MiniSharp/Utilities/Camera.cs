@@ -12,10 +12,13 @@ public class Camera(int x, int y, int minX, int maxX, int minY, int maxY)
 
     public void Translate(int dx, int dy)
     {
-        X += dx;
-        Y += dy;
-
-        X = Math.Clamp(X, _minX, _maxX);
-        Y = Math.Clamp(Y, _minY, _maxY);
+        X = Math.Clamp(X + dx, _minX, _maxX);
+        Y = Math.Clamp(Y + dy, _minY, _maxY);
+    }
+    
+    public void CenterOn(int x, int y)
+    {
+        X = Math.Clamp(x, _minX, _maxX);
+        Y = Math.Clamp(y, _minY, _maxY);
     }
 }

@@ -32,6 +32,7 @@ public sealed class Game
     public TextureManager TextureManager { get; } = new();
     public Renderer Renderer { get; }
     public SceneManager SceneManager { get; } = new();
+    public int Ticks { get; private set; }
 
     public void Run()
     {
@@ -81,6 +82,7 @@ public sealed class Game
                 accumulator -= FixedDeltaTime;
 
                 tps++;
+                Ticks++;
             }
 
             Renderer.Flush();

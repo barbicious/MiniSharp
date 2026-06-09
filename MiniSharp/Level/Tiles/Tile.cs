@@ -23,7 +23,7 @@ public abstract class Tile
         Tiles[Id] = this;
     }
     
-    public int Id { get; init; }
+    public int Id { get; }
     
     public abstract void Blit(Arcade arcade, int x, int y);
 
@@ -35,5 +35,10 @@ public abstract class Tile
     protected virtual int GetTextureId()
     {
         throw new NotImplementedException();
+    }
+
+    protected virtual bool IsAnimated()
+    {
+        return false;
     }
 }

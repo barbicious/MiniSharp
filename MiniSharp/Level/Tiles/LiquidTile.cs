@@ -13,4 +13,9 @@ public abstract class LiquidTile : GroundTile
     {
         return Game.Instance.TextureManager.GetId("liquid");
     }
+
+    protected override bool IsAnimated()
+    {
+        return true;
+    }
 }

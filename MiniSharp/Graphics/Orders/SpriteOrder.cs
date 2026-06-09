@@ -8,4 +8,5 @@ public struct SpriteOrder
     public Point Dst;
     public uint[] Colors;
     public int TextureId;
+    public bool FlipHorizontal;
 }

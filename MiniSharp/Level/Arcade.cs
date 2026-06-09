@@ -23,10 +23,12 @@ public class Arcade
 
         _generator.Generate(ref _tiles);
 
-        _pawns = [new PlayerPawn(this, 3, 3)];
+        _pawns = [new PlayerPawn(this, 0, 0)];
     }
 
     public Tile this[int x, int y] => Tile.Tiles[_tiles[y * Width + x]];
+    
+    public static (int x, int y) ToTile(int x, int y) => (x / Tile.Width, y / Tile.Height);
 
     public void Tick()
     {

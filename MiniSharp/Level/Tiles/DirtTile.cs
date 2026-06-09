@@ -12,24 +12,31 @@ public class DirtTile : GroundTile
 
     public override void Blit(Arcade arcade, int x, int y)
     {
+        var (sx, sy) = GetCenterTiles(x >> 3, y >> 3);
         Game.Instance.Renderer.BlitSprite(new SpriteOrder
         {
-            Colors = GetColors(), Src = new Rectangle(24, 0, SubWidth, SubHeight),
+            Colors = GetColors(), Src = new Rectangle(sx, sy, SubWidth, SubHeight),
             Dst = new Point(x * Width, y * Height), TextureId = GetTextureId()
         });
+        
+        (sx, sy) = GetCenterTiles(x >> 5, y >> 5);
         Game.Instance.Renderer.BlitSprite(new SpriteOrder
         {
-            Colors = GetColors(), Src = new Rectangle(24, 0, SubWidth, SubHeight),
+            Colors = GetColors(), Src = new Rectangle(sx, sy, SubWidth, SubHeight),
             Dst = new Point(x * Width + SubWidth, y * Height), TextureId = GetTextureId()
         });
+        
+        (sx, sy) = GetCenterTiles(x >> 8, y >> 8);
         Game.Instance.Renderer.BlitSprite(new SpriteOrder
         {
-            Colors = GetColors(), Src = new Rectangle(24, 0, SubWidth, SubHeight),
+            Colors = GetColors(), Src = new Rectangle(sx, sy, SubWidth, SubHeight),
             Dst = new Point(x * Width, y * Height + SubHeight), TextureId = GetTextureId()
         });
+        
+        (sx, sy) = GetCenterTiles(x, y);
         Game.Instance.Renderer.BlitSprite(new SpriteOrder
         {
-            Colors = GetColors(), Src = new Rectangle(24, 0, SubWidth, SubHeight),
+            Colors = GetColors(), Src = new Rectangle(sx, sy, SubWidth, SubHeight),
             Dst = new Point(x * Width + SubWidth, y * Height + SubHeight), TextureId = GetTextureId()
         });
     }

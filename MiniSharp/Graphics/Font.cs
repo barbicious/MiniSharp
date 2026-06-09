@@ -36,7 +36,7 @@ public sealed class Font
             {
                 Colors = [foreground, 0, 0, background],
                 Src = new Rectangle(cx * CharWidth, cy * CharHeight, CharWidth, CharHeight), Dst = new Point(x, y),
-                TextureId = FontId
+                TextureId = FontId,
             });
         }
     }

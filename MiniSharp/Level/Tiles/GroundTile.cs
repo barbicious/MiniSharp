@@ -21,8 +21,7 @@ public abstract class GroundTile : Tile
 
         if (u && l)
         {
-            sx = 8;
-            sy = 8;
+            (sx, sy) = GetCenterTiles(x, y);
         }
         else
         {
@@ -51,8 +50,7 @@ public abstract class GroundTile : Tile
 
         if (u && r)
         {
-            sx = 8;
-            sy = 8;
+            (sx, sy) = GetCenterTiles(x, y);
         }
         else
         {
@@ -81,8 +79,7 @@ public abstract class GroundTile : Tile
 
         if (d && l)
         {
-            sx = 8;
-            sy = 8;
+            (sx, sy) = GetCenterTiles(x, y);
         }
         else
         {
@@ -111,8 +108,7 @@ public abstract class GroundTile : Tile
 
         if (d && r)
         {
-            sx = 8;
-            sy = 8;
+            (sx, sy) = GetCenterTiles(x, y);
         }
         else
         {
@@ -138,6 +134,24 @@ public abstract class GroundTile : Tile
             Colors = GetColors(), Src = new Rectangle(sx, sy, SubWidth, SubHeight),
             Dst = new Point(x * Width + SubWidth, y * Height + SubHeight), TextureId = GetTextureId()
         });
+    }
+
+    protected (int sx, int sy) GetCenterTiles(int x, int y)
+    {
+        int sx, sy;
+
+        if (IsAnimated())
+        {
+            sx = ((x + Game.Instance.Ticks / 45) & 1) * SubWidth + 24;
+            sy = ((x + Game.Instance.Ticks / 45) & 1) * SubHeight;
+        }
+        else
+        {
+            sx = (x & 1) * SubWidth + 24;
+            sy = (y & 1) * SubHeight;
+        }
+
+        return (sx, sy);
     }
 
     protected override int GetTextureId()
